@@ -23,7 +23,7 @@ public class MainGamePanel extends SurfaceView implements
 
 	private MainThread thread;                            //main game thread
 	
-	public List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
+	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
 	public static enum SpriteName {GATITO1, GATITO2};     // all sprite names TBM
 	public int spListSize = 2;                            //number of sprites TBM
 	
