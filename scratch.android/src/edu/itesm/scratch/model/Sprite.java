@@ -35,9 +35,9 @@ public class Sprite {
 	private float y;	     // the Y coordinate 
 	private float direction; // the current direction in degrees. In Scratch terms. "UP" is zero degrees, "RIGHT" 90
 	private boolean touched; // if sprite has been touched
-	private Script script;   // one of the sprite's scripts. Later on a list of scripts
+	private Script []script;   // one of the sprite's scripts. Later on a list of scripts
 	private boolean onEdgeBounce;    // ifOnEdgeBounce instruction has been executed
-	
+	private int scriptCounter = 1;
 	
 	public Sprite(SpriteName spriteName, Bitmap bitmap, float x, float y, float direction) {
 		this.spriteName = spriteName;
@@ -45,11 +45,25 @@ public class Sprite {
 		this.x = SCREENWIDTH/2 + x;  // convert from Scratch to canvas coordinate system
 		this.y = SCREENHEIGHT/2 - y;
 		this.direction = direction;
-		
+		createNewScript(this);
 		onEdgeBounce = false;
 		touched = false;
-		script = new Script(this.spriteName, this, 1);
+		
 		Log.d(TAG, "script created");
+		
+	}
+	
+	//P; let see if it works without returning the sprite. 
+	//P; returns the sprite with the new script
+	public void createNewScript(Sprite sprite){
+		sprite.script[scriptCounter] = new Script(this.spriteName, this, 1);
+		sprite.scriptCounter++;
+		//return sprite;
+	}
+	
+	public Script[] getScriptList(){
+		//returns the script counter -1 because it is added one every time a script is created.
+		return script; 
 	}
 	
 	public Sprite(SpriteName spriteName, Bitmap bitmap) {
@@ -60,11 +74,14 @@ public class Sprite {
 		direction = 90;
 		onEdgeBounce = false;
 		touched = false;
-		script = new Script(this.spriteName,this, 1);
+		createNewScript(this);
 	}
 	
 	public Bitmap getBitmap() {
 		return bitmap;
+	}
+	public SpriteName getSpriteName(){
+		return spriteName;
 	}
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
@@ -121,8 +138,8 @@ public class Sprite {
 		draw ();
 	}
 	
-	public Script getScript() {
-		return script;
+	public Script getScript(int scriptNumber) {
+		return script[scriptNumber];
 	}
 	
 	

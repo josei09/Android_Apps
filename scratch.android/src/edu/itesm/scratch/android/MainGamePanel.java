@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.model.Sprite;
 
 public class MainGamePanel extends SurfaceView implements
@@ -65,13 +66,16 @@ public class MainGamePanel extends SurfaceView implements
 		// tell the main thread and all script threads to shut down and wait for them to finish
 		// this is a clean shutdown
 		boolean retry = true;
-		
 		while (retry) {
 			try {
 				thread.join();
-				 
-				for (int i=1; i<spListSize; i++){
-					spList.get(i).getScript().getThread().join();
+				Script [] ScriptList; //P; a sprite can have several scripts.
+				for (int i=1; i<spListSize; i++){//P; for each sprite that has 1 or more script
+					ScriptList = spList.get(i).getScriptList();
+					int scriptListLength=ScriptList.length;
+					for (int j=1; j<scriptListLength; j++){//P; for each script, wait thread
+						spList.get(i).getScript(j).getThread().join();
+					}
 				}
 				retry = false;
 			} catch (InterruptedException e) {
