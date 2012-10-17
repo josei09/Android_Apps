@@ -1,8 +1,9 @@
 package edu.itesm.scratch.android;
 
 /**
- * Java framework used to implement MIT's Scratch programs as set of cooperating threads in Google's Android SDK
- * Partially based on free code and tutorial by impaler, http://
+ * Java framework used to implement MIT's Scratch programs as set of cooperating threads in 
+ * Google's Android SDK
+ * Partially based on free code and gam development tutorial by impaler, http://
  * That tutorial is based on the typical "modify the model and then draw whatever results". This however doesn't turn
  * out to be natural for Scratch programs which are naturally written as a set of parallel threads, with the Scratch
  * infrastructure automatically handling thread synchronization. 
