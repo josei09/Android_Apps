@@ -129,7 +129,6 @@ public class Script  {
 	    	whenGreenFlagClicked();
 	    	sprite.goToXY(0,0);
 	    	sprite.pointInDirection(1);
-	    	// un comentario....
 	    	for (i=1;i<=80;i++) { //Scratch's repeat 190 times block
 	    		sprite.moveSteps(2);
 	    		sprite.ifOnEdgeBounce();
