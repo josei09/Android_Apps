@@ -79,8 +79,8 @@ public class MainGamePanel extends SurfaceView implements
 		spList.add(sprite); 
 		
 		sprite = new Sprite(SpriteName.GATITO2, 2);   //TBM continue adding on all sprites and costumes
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a_9));
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_b));
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
 
 		spList.add(sprite);
 		
