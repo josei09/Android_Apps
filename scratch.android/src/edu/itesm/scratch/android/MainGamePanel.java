@@ -75,14 +75,15 @@ public class MainGamePanel extends SurfaceView implements
 		// Create all sprites and their costumes.
 		// Creating a sprite also creates and starts all its scripts' threads.
 		// All threads will be waiting on some "When..." scratch block.
+		// este comentario solo debe aparecer en josei09 test branch...
 		
 		sprite = new Sprite(SpriteName.GATITO1, 1);    //integer at end is number of scripts of sprite
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.droid_1)); // TBM continue adding on all costumes																				 
 		spList.add(sprite); 
 		
 		sprite = new Sprite(SpriteName.GATITO2, 2);   //TBM continue adding on all sprites and costumes
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a_9));
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_b));
 
 		spList.add(sprite);
 		
