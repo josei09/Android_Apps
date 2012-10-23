@@ -4,6 +4,8 @@
  * It also handles all input/output at the onTouchEvent and the onKeyPressedEvent methods, passing most of the work
  * to methods in the Sprite and Script classes.
  * When the red flag is hit, it pauses the project and waits for the green flag again.
+ * TBD Paint green and red flags on the canvas. (Right now, clicking the upper part of screen is green, lower part is red.
+ * TBD Red flag should only pause app, leave screen as it is and reinitialize. (right now, the red flag kills app.)
  */
 package edu.itesm.scratch.android;
 
