@@ -7,6 +7,7 @@
  * TBD Paint green and red flags on the canvas. (Right now, clicking the upper part of screen is green, lower part is red.
  * TBD Red flag should only pause app, leave screen as it is and reinitialize. (right now, the red flag kills app.)
  */
+
 package edu.itesm.scratch.android;
 
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ public class MainGamePanel extends SurfaceView implements
 	                           
 	public static boolean greenFlagClicked = false;
 	private MainThread thread;                 //main project thread
-	
 	
 	public MainGamePanel(Context context) {
 		super(context);
@@ -125,7 +125,6 @@ public class MainGamePanel extends SurfaceView implements
 		Log.d(TAG, "Threads were shut down cleanly");
 	}
 
-	
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) { //screen touched
 			// delegating event handling to the sprites
@@ -182,3 +181,4 @@ public class MainGamePanel extends SurfaceView implements
 		canvas.drawBitmap(Sprite.spBitmap, 0, 0, null);
 	}
 }
+

@@ -4,15 +4,18 @@ import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.opengl.GLSurfaceView;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import edu.itesm.scratch.android.MainGamePanel;
 import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.android.MainGamePanel.SpriteName;
+
 
 /**
  * @author Jose I. Icaza based on free code by impaler
@@ -174,4 +177,25 @@ public class Sprite {
 }
 
 
+
+class MyGLSurfaceView extends GLSurfaceView {
+
+    public MyGLSurfaceView(Context context){
+        super(context);
+        
+        // Create an OpenGL ES 2.0 context
+        setEGLContextClientVersion(2);
+        
+        // Set the Renderer for drawing on the GLSurfaceView
+        //setRenderer(new MyRenderer()); //TODO
+        
+        // Render the view only when there is a change in the drawing data
+        /* This setting prevents the GLSurfaceView frame from being redrawn 
+         * until you call requestRender(), which is more efficient for this sample app.
+         */
+        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        
+        
+    }
+}
 
