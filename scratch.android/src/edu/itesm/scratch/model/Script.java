@@ -127,17 +127,18 @@ public class Script  {
 	    public void run() {
 	    	
 	    	whenGreenFlagClicked();
-	    	sprite.goToXY(0,0);
-	    	sprite.pointInDirection(1);
-	    	for (i=1;i<=80;i++) { //Scratch's repeat 190 times block
-	    		sprite.moveSteps(2);
-	    		sprite.ifOnEdgeBounce();
-	    		try {
-	            	Thread.sleep(25);
-	            } catch (InterruptedException e) {
-	            	Log.d(TAG, "interrupted");
-	            }
+	    	sprite.pointInDirection(150);
+
+	    	for (i=1; i<=10; i++) {
+	    	sprite.changeXby(20);
+	    	sprite.changeYby(40);
+    		try {
+            	Thread.sleep(25);
+            } catch (InterruptedException e) {
+            	Log.d(TAG, "interrupted");
+            }
 	    	}
+	 
 	    }
 	    		
 	}

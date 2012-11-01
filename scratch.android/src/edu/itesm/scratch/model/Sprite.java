@@ -42,8 +42,11 @@ public class Sprite {
 	private Bitmap bitmap;	             // the current Costume bitmap
 	private int nCostumes = 0;          //number of costumes
 	
-	private float x = SCREENWIDTH/2;  // the X coordinate of Sprite center in Canvas coordinate system.
-    private float y = SCREENHEIGHT/2; // the Y coordinate 
+	public float x = SCREENWIDTH/2;  // the X coordinate of Sprite center in Canvas coordinate system.
+	public float varx = 0;           // X coordinate used in the ChangeXby method         
+	public float y = SCREENHEIGHT/2; // the Y coordinate
+	public float vary = 0;           // Y coordinate used in the ChangeYby method
+    
 	private float direction = 90;     // the current direction in degrees. 
 	                                  // In Scratch terms. "UP" is zero degrees, "RIGHT" 90
 	
@@ -100,12 +103,24 @@ public class Sprite {
 		this.x = SCREENWIDTH/2 + x;
 		draw ();
 	}
+	
+	public void changeXby(float varx) {
+		this.x = x + varx;
+		draw();
+	}
+	
 	public float getY() {
 		return y;
 	}
+	
 	public void setYTo(float y) {
 		this.y = SCREENHEIGHT/2 - y;
 		draw ();
+	}
+	
+	public void changeYby(float vary) {
+		this.y = y + vary;
+		draw();
 	}
 	
 	public float getDirection() {
