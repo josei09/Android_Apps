@@ -8,12 +8,12 @@ public class Script  {
 	private static final String TAG = Script.class.getSimpleName();
 	private static final int FOREVER = 5*60*1000; //five minutes in milliseconds
 	public static enum ScriptType {WGREENFLAGCLKD, // when green flag clicked script,
-		                           WKP,  // when key pressed script
-		                           WSC,  // when Sprite Clicked script
-		                           WIRM  // when I receive message script
+		                           WKEYPRESSED,    // when key pressed script
+		                           WSPRITECLKDC,   // when Sprite Clicked script
+		                           WIRECEIVEMSG    // when I receive message script
 	                              };
 	                              
-	// general methods applicable to all scripts of the scratch project:
+	// general methods applicable to all scripts:
 	public static void whenGreenFlagClicked() {
 		// wait until MainGamePanel.onTouchEvent detects green flag clicked and interrupts
 		// the sleeping thread
@@ -127,23 +127,17 @@ public class Script  {
 	    public void run() {
 	    	
 	    	whenGreenFlagClicked();
-	    	sprite.pointInDirection(150);
-
+		sprite.goToXY(0,0);
+	
 	    	for (i=1; i<=10; i++) {
-	    	sprite.changeXby(20);
-	    	sprite.changeYby(40);
-    		try {
-            	Thread.sleep(25);
-            } catch (InterruptedException e) {
-            	Log.d(TAG, "interrupted");
-            }
+	    		sprite.changeXby(20);
+	    		sprite.changeYby(40);
+    			try {
+            		Thread.sleep(25);
+            	} catch (InterruptedException e) {
+            		Log.d(TAG, "interrupted");
+            	}
 	    	}
-	 
-	    }
-	    		
-	}
-	
-	
-	
-
+	    }   		
+	}	
 }

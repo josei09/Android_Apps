@@ -1,5 +1,5 @@
 /**
- * 
+ * The main game thread simply calls MainGamePanel.onDraw() repeatedly to paint the canvas
  */
 package edu.itesm.scratch.android;
 
@@ -49,7 +49,6 @@ public class MainThread extends Thread {
                 canvas = this.surfaceHolder.lockCanvas();
                 
                 synchronized (surfaceHolder) {
-                    // update game state
                     // draws the canvas on the panel
                     this.gamePanel.onDraw(canvas);
                }
@@ -61,7 +60,11 @@ public class MainThread extends Thread {
                 }
             }   // end finally
             try {
-            	Thread.sleep(33);
+            	Thread.sleep(33); //TBD. this gives about 30 canvas paints per second. But that depends on 
+            	                  //how many sprites are there and what they are doing and what kind of android device
+            	                  //and Android version is being used. Must be changed
+            	                  //to reflect all this. See Impaler's tutorial http: for a super clear explanation
+            	                  //and implementation of "frame rate"
             } catch (InterruptedException e) {
             	Log.d(TAG, "interrupted");
             }

@@ -15,7 +15,11 @@ import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.android.MainGamePanel.SpriteName;
 
 /**
- * @author Jose I. Icaza based on free code by impaler
+ * This class is invoked from MainGamePanel to initialize sprites and from the Scripts class
+ * to exectute some of the Scratch instructions. When a sprite is initialized together with its costumes and sounds,
+ * its scripts' threads are created in the Scripts class, and since all scripts start with a When bock, all scripts
+ * are set to sleep until the corresponding When condition occurs. 
+ * @author Jose I. Icaza and students from the August 2012 Programming Project class at Tecnologico de Monterrey, Mexico
  *
  */
 
@@ -25,9 +29,12 @@ public class Sprite {
 	
 	public static final int SCREENWIDTH = MainGamePanel.SCREENWIDTH;   // Scratch's screen width in pixels
 	public static final int SCREENHEIGHT = MainGamePanel.SCREENHEIGHT; // must be changed later to compute actual device dimensions
-	public static final float DEGTORAD = 3.14159f/180.0f;
+	public static final float DEGTORAD = 3.14159f/180.0f;              // degrees to radians conversion
+	
+	// bitmap and canvas where all sprites are painted on. Copied later to surface canvas by MainGamePanel.onDraw method
 	public static Bitmap spBitmap = Bitmap.createBitmap(SCREENWIDTH, SCREENHEIGHT, Bitmap.Config.ARGB_8888);
 	public static Canvas spCanvas = new Canvas(spBitmap); // sprites write here
+	
 	private static final String TAG = Sprite.class.getSimpleName();
 	static {
 	    spCanvas.drawColor(Color.BLACK);
@@ -35,18 +42,19 @@ public class Sprite {
 	    Log.d(TAG, "canvas painted in");
 	}
 	
-	private SpriteName spriteName;         // Sprite name
+	private SpriteName spriteName;         // Sprite name. SpriteName is a public enum declared in MainGamePanel
 	
-	private List<Bitmap> costumeList = new ArrayList<Bitmap>(); //list of costumes
+	private List<Bitmap> costumeList = new ArrayList<Bitmap>(); // list of costumes of sprite
+	                                                            // TBD list of sounds 
+	                                                            // TBD currently, costomes are accessed by number.
+	                                                            // They need to be accessed by name for some Scratch
+	                                                            // instructions. Same with sounds
 	private int costumeNumber = 1;        // the current costume number
 	private Bitmap bitmap;	             // the current Costume bitmap
-	private int nCostumes = 0;          //number of costumes
+	private int nCostumes = 0;          //number of costumes of Sprite
 	
-	public float x = SCREENWIDTH/2;  // the X coordinate of Sprite center in Canvas coordinate system.
-	public float varx = 0;           // X coordinate used in the ChangeXby method         
-	public float y = SCREENHEIGHT/2; // the Y coordinate
-	public float vary = 0;           // Y coordinate used in the ChangeYby method
-    
+	private float x = SCREENWIDTH/2;  // the X coordinate of Sprite center in Canvas coordinate system.
+	private float y = SCREENHEIGHT/2; // the Y coordinate    
 	private float direction = 90;     // the current direction in degrees. 
 	                                  // In Scratch terms. "UP" is zero degrees, "RIGHT" 90
 	
@@ -57,12 +65,12 @@ public class Sprite {
 	private boolean onEdgeBounce = false;   // ifOnEdgeBounce instruction has been executed
 	private boolean hidden = true;          // true if sprite is hidden
 	
-	public Sprite(SpriteName spriteName, int nScripts) {
+	public Sprite(SpriteName spriteName, int numberOfScripts) {
 		Log.d(TAG, "sprite being created");
 		this.spriteName = spriteName;
-		this.nScripts = nScripts;
+		this.nScripts = numberOfScripts;
 		nCostumes = 0;
-		for (int i=1; i<=nScripts; i++) {
+		for (int i=1; i<=numberOfScripts; i++) {
 			Log.d(TAG, "about to create script");
 			Script script = new Script(this, i);
 			Log.d(TAG, "script created");
@@ -90,22 +98,26 @@ public class Sprite {
 	
 	public Script getScript(int scriptNumber) {return scList.get(scriptNumber);}
 	
-	public Bitmap getBitmap() {
-		return bitmap;
-	}
+	public Bitmap getBitmap() { return bitmap;}
+	
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
-	public float getX() {
-		return x;
-	}
-	public void setXTo(float x) {
-		this.x = SCREENWIDTH/2 + x;
+	public float getX() { return x;}
+	
+	public void goToXY(float x, float y) { //scratch's " go to x:n y:n" instruction
+		this.x = SCREENWIDTH/2 + x;  // convert from Scratch to canvas coordinate system
+		this.y = SCREENHEIGHT/2 - y;
 		draw ();
 	}
 	
+	public void setXTo(float x) { // Scratch's "set x to n" instruction
+		this.x = SCREENWIDTH/2 + x;
+		draw (); //draw sprite on sprites' canvas spCanvas, at the new x position.
+	}
+	
 	public void changeXby(float varx) {
-		this.x = x + varx;
+		x = x + varx;
 		draw();
 	}
 	
@@ -118,9 +130,17 @@ public class Sprite {
 		draw ();
 	}
 	
+
 	public void changeYby(float vary) {
-		this.y = y + vary;
+		y = y - vary;
 		draw();
+	}
+	
+	
+	public void moveSteps (float n) {
+		x += n*FloatMath.cos((90 - direction)*DEGTORAD);
+		y -= n*FloatMath.sin((90 - direction)*DEGTORAD);
+		draw ();
 	}
 	
 	public float getDirection() {
@@ -143,28 +163,12 @@ public class Sprite {
 		spCanvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 	
-	public void goToXY(float x, float y) {
-		this.x = SCREENWIDTH/2 + x;  // convert from Scratch to canvas coordinate system
-		this.y = SCREENHEIGHT/2 - y;
-		draw ();
-	}
+	
 	
 	public void ifOnEdgeBounce () {
 		this.onEdgeBounce = true;
-		//falta checar si esta en el borde para darle reversa a su velocidad en x y en y.
+		// TBD falta checar si esta en el borde para darle reversa a su velocidad en x y en y.
 	}
-	
-	public void moveSteps (float n) {
-		x += n*FloatMath.cos((90 - direction)*DEGTORAD);
-		y -= n*FloatMath.sin((90 - direction)*DEGTORAD);
-		draw ();
-	}
-	
-	
-	
-	
-	
-	
 	
 
 	/**

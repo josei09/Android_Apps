@@ -5,7 +5,8 @@
  * to methods in the Sprite and Script classes.
  * When the red flag is hit, it pauses the project and waits for the green flag again.
  * TBD Paint green and red flags on the canvas. (Right now, clicking the upper part of screen is green, lower part is red.
- * TBD Red flag should only pause app, leave screen as it is and reinitialize. (right now, the red flag kills app.)
+ * TBD Red flag should only pause app -leave screen as it is (right now, the red flag kills app.)
+ * 
  */
 package edu.itesm.scratch.android;
 
@@ -24,16 +25,17 @@ import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.model.Script.ScriptType;
 import edu.itesm.scratch.model.Sprite;
 
-public class MainGamePanel extends SurfaceView implements
-		SurfaceHolder.Callback {
+public class MainGamePanel extends SurfaceView implements //A surface view allows us to use the whole screen
+		SurfaceHolder.Callback {                          //this allback tells Android: "We handle input/output here"
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	public static final int SCREENWIDTH = 480;  // Scratch's screen width in pixels
-	public static final int SCREENHEIGHT = 360; // must be changed later to compute actual device dimensions
+	public static final int SCREENHEIGHT = 360; // TBD must be changed to compute actual device dimensions
 
 	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
-	public static enum SpriteName {GATITO1, GATITO2};           // all sprite names TBM
+	public static enum SpriteName {GATITO1, GATITO2};           // TBM all sprite names 
 	public int nSprites;                                       //number of sprites 
+	    													     
 	                           
 	public static boolean greenFlagClicked = false;
 	private MainThread thread;                 //main project thread
@@ -47,26 +49,26 @@ public class MainGamePanel extends SurfaceView implements
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
 
-		// make the GamePanel focusable so it can handle events
+		// make the GamePanel focusable so it can handle I/O events 
 		setFocusable(true);
 	}
 
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		// to be done
+		// Not needed. It would handle turning the phone or table to horizontal or vertical position
 	}
 
 	
 	public void surfaceCreated(SurfaceHolder holder) {
-		/** Project initialization
+		/** Project initialization. Called by Android system.
 		 *  INPUT STATE: The app has just been started. 
-		 *               all sprite costumes should be in some res/drawable folder and
+		 *               all sprite costumes and the initial project screen should be in some res/drawable folder and
 		 *               all sprite sounds in some res/sounds folder
 		 *               The names of all sprites should already be in the enum SpriteNames
 		 *               The scripts of all sprites should already be included in the Script class
 		 *  OUTPUT STATE: Main game thread created and started;
-		 *                all Sprite instances, all Costumes added on
+		 *                all Sprite instances, all Costumes and Sounds added on
 		 *                all script threads started, all of them waiting on their "When..." blocks           
 		 */
 		
@@ -75,35 +77,39 @@ public class MainGamePanel extends SurfaceView implements
 		// Create all sprites and their costumes.
 		// Creating a sprite also creates and starts all its scripts' threads.
 		// All threads will be waiting on some "When..." scratch block.
+		// este comentario solo debe aparecer en josei09 test branch...
 		
+		// TBM - in the following lines add on all sprites, their costumes and sounds if any
 		sprite = new Sprite(SpriteName.GATITO1, 1);    //integer at end is number of scripts of sprite
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.droid_1)); // TBM continue adding on all costumes																				 
-		spList.add(sprite); 
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.droid_1)); 																				 
+																							 
+		spList.add(sprite); //add sprite instance to sprite list
 		
-		sprite = new Sprite(SpriteName.GATITO2, 2);   //TBM continue adding on all sprites and costumes
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
+		sprite = new Sprite(SpriteName.GATITO2, 2);   
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a_9));
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_b));
 
 		spList.add(sprite);
+		// END TBM
 		
 		nSprites = spList.size();
 		
-		// TBD - get the initial project image and load it up on spCanvas, instead of the static method in Sprite
-		// TBD - the green flag should appear in the interface here, after all sprites and scripts etc
-		//       have been created.
-		// TBD - get all sounds into a spSounds list in Sprite class
+		// TBD - get the initial project screen and load it up on spCanvas, instead of the static method in Sprite
+		// TBD - paint the green flag here, after all sprites and scripts etc have been created.
 		
 		// at this point the surface is created and
 		// we can safely start the game loop that periodically repaints the surface canvas:
 		thread.setRunning(true);
-		thread.start();
-		
+		thread.start();		
 	}
 
 	
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		/** Project termination. Called by Android system
+		 * 
+		 */
 		Log.d(TAG, "Surface is being destroyed");
-		// tell the main thread and all script threads to shut down and wait for them to finish
+		// tell the main thread and all script threads to shut down and wait for them to finish.
 		// this is a clean shutdown
 		boolean retry = true;
 		
@@ -113,10 +119,10 @@ public class MainGamePanel extends SurfaceView implements
 					Sprite sprite = spList.get(i);
 					int nScripts = sprite.getNScripts();
 					for (int j=0; j<=nScripts-1; j++) {
-						sprite.getScript(j).getThread().join();
+						sprite.getScript(j).getThread().join(); //stop sprite thread
 				    }
 				}
-				thread.join();
+				thread.join(); //stop main thread
 				retry = false;
 			} catch (InterruptedException e) {
 				// try again shutting down the threads
@@ -127,12 +133,14 @@ public class MainGamePanel extends SurfaceView implements
 
 	
 	public boolean onTouchEvent(MotionEvent event) {
+		/* Handles all input/ouput: touch, drag, keypad and keyboard input */
+		
 		if (event.getAction() == MotionEvent.ACTION_DOWN) { //screen touched
 			// delegating event handling to the sprites
 			for (int i=0; i <= nSprites-1; i++){
 				spList.get(i).handleActionDown((int)event.getX(), (int)event.getY());
 			}
-
+            // TBD - check if actual red or green flags touched.
 			// check if in the lower part of the screen we exit (Scratch's red stop sign)
 			if (event.getY() > getHeight() - 50) {
 				thread.setRunning(false);
@@ -142,14 +150,14 @@ public class MainGamePanel extends SurfaceView implements
 			} else if (event.getY() < 50) {
 				greenFlagClicked = true;
 				
-				// interrupt all threads sleep/waiting for the green flag:
+				// interrupt all threads sleep/waiting for the green flag at class Script:
 				for (int i=0; i<=nSprites-1; i++) {
 					Sprite sprite = spList.get(i);
 					int nScripts = sprite.getNScripts();
 					for (int j=0; j<=nScripts-1; j++) {
 						Script script = sprite.getScript(j);
 						if (script.getScriptType() == ScriptType.WGREENFLAGCLKD) {
-							script.getThread().interrupt();
+							script.getThread().interrupt(); //once interrupted, the script starts exectuting
 						}
 					}
 				}
@@ -160,12 +168,12 @@ public class MainGamePanel extends SurfaceView implements
 			
 			
 		} 
-//		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			// the gestures
+//		if (event.getAction() == MotionEvent.ACTION_MOVE) { // a sprite is being dragged
+			
 //			if (sprite.isTouched()) {
-				// the droid was picked up and is being dragged
-//				sprite.setX((int)event.getX());
-//				sprite.setY((int)event.getY());
+				// the sprite was picked up and is being dragged
+//				sprite.setX((float)event.getX());
+//				sprite.setY((float)event.getY());
 //			}
 //		} if (event.getAction() == MotionEvent.ACTION_UP) {
 			// touch was released
@@ -173,12 +181,14 @@ public class MainGamePanel extends SurfaceView implements
 //				sprite.setTouched(false);
 //			}
 //		}
-		return true;
+//      TBD handle keyboard input
+//		TBD handle keypad input (arrows)
+		return true; 
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		
-		canvas.drawBitmap(Sprite.spBitmap, 0, 0, null);
+		canvas.drawBitmap(Sprite.spBitmap, 0, 0, null); //draw all sprites on surface canvas
 	}
 }
