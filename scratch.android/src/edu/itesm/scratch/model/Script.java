@@ -31,7 +31,7 @@ public class Script  {
 	private char keyPressed;       // if WKP script, the key to be pressed
 	private String msg;            // if WIRM script, the message to be received
 	private Sprite sprite;         // Sprite that owns this script 
-	
+
 	
 	private Thread scThread;  // this Script's thread
 	
@@ -43,6 +43,11 @@ public class Script  {
 		switch (sprite.getSpriteName()) {
 		case GATITO1:
 			scThread = new Thread(new StatmntsGatito1_1(sprite));
+			scriptType = ScriptType.WGREENFLAGCLKD;
+			break;
+			
+		case pointt:
+			scThread = new Thread(new StatmntsPointt_1(sprite));
 			scriptType = ScriptType.WGREENFLAGCLKD;
 			break;
 		case GATITO2:
@@ -68,6 +73,31 @@ public class Script  {
 	
 	public Thread     getThread ()    {return scThread;}
 	public ScriptType getScriptType() {return scriptType;}
+	public class StatmntsPointt_1 implements Runnable {
+	    private Sprite sprite;
+	    private int i;
+	    public StatmntsPointt_1(Sprite sprite) {
+	    	this.sprite = sprite;
+	    }
+	    	
+	    public void run() {
+	    	
+	    	whenGreenFlagClicked();
+	    	sprite.goToXY(190,20);
+	    	sprite.pointInDirection(90);
+	    	for (i=1;i<=95;i++) { //Scratch's repeat 190 times block
+	    		sprite.moveSteps(-4);
+	    		sprite.pointTowardsSprite(SpriteName.GATITO1);
+	    		sprite.ifOnEdgeBounce();
+	    		try {
+	            	Thread.sleep(25);
+	            } catch (InterruptedException e) {
+	            	Log.d(TAG, "interrupted");
+	            }
+	    	}
+	    }
+	    		
+	}
 	
 	public class StatmntsGatito2_1 implements Runnable {
 	    private Sprite sprite;
@@ -96,7 +126,9 @@ public class Script  {
 	public class StatmntsGatito2_2 implements Runnable {
 	    private Sprite sprite;
 	    private int i;
+		
 	    public StatmntsGatito2_2(Sprite sprite) {
+	    	
 	    	this.sprite = sprite;
 	    }
 	    	
@@ -110,6 +142,8 @@ public class Script  {
 	            	Log.d(TAG, "interrupted");
 	            }
 	    		sprite.nextCostume();
+	    		
+	       		
 	    	}
 	    }
 	    		

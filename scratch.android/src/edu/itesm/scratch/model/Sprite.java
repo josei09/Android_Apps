@@ -36,7 +36,6 @@ public class Sprite {
 	}
 	
 	private SpriteName spriteName;         // Sprite name
-	
 	private List<Bitmap> costumeList = new ArrayList<Bitmap>(); //list of costumes
 	private int costumeNumber = 1;        // the current costume number
 	private Bitmap bitmap;	             // the current Costume bitmap
@@ -46,6 +45,9 @@ public class Sprite {
     private float y = SCREENHEIGHT/2; // the Y coordinate 
 	private float direction = 90;     // the current direction in degrees. 
 	                                  // In Scratch terms. "UP" is zero degrees, "RIGHT" 90
+	private float Ynew;
+	private float Xnew;
+	private double dirNew;
 	
 	private List<Script> scList = new ArrayList<Script>();      //list of all scripts of sprite
 	private int nScripts;                                       // number of scripts of the sprite
@@ -145,7 +147,24 @@ public class Sprite {
 		draw ();
 	}
 	
-	
+	public void pointTowardsSprite (SpriteName spriteName ) {
+		
+			for(int i=0;i< MainGamePanel.spList.size() ;i++){	
+				
+					Sprite nuevo= MainGamePanel.spList.get(i);
+					if(nuevo.spriteName == spriteName){
+					Ynew=nuevo.getY();
+					Xnew=nuevo.getX();
+					dirNew=Math.atan2((y-Ynew),(x- Xnew));
+					direction=(float)dirNew;
+					pointInDirection(direction);
+					}
+					
+				
+		}
+			
+
+	}
 	
 	
 	

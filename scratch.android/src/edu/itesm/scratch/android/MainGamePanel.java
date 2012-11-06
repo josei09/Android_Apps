@@ -32,7 +32,7 @@ public class MainGamePanel extends SurfaceView implements
 	public static final int SCREENHEIGHT = 360; // must be changed later to compute actual device dimensions
 
 	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
-	public static enum SpriteName {GATITO1, GATITO2};           // all sprite names TBM
+	public static enum SpriteName {GATITO1, GATITO2, pointt};           // all sprite names TBM
 	public int nSprites;                                       //number of sprites 
 	                           
 	public static boolean greenFlagClicked = false;
@@ -80,6 +80,9 @@ public class MainGamePanel extends SurfaceView implements
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.droid_1)); // TBM continue adding on all costumes																				 
 		spList.add(sprite); 
 		
+		sprite = new Sprite(SpriteName.pointt, 1);    //integer at end is number of scripts of sprite
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.droid_1)); // TBM continue adding on all costumes																				 
+		spList.add(sprite); 
 		sprite = new Sprite(SpriteName.GATITO2, 2);   //TBM continue adding on all sprites and costumes
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
@@ -127,6 +130,8 @@ public class MainGamePanel extends SurfaceView implements
 
 	
 	public boolean onTouchEvent(MotionEvent event) {
+		
+		
 		if (event.getAction() == MotionEvent.ACTION_DOWN) { //screen touched
 			// delegating event handling to the sprites
 			for (int i=0; i <= nSprites-1; i++){
