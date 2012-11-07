@@ -42,6 +42,7 @@ public class Sprite {
 	    Log.d(TAG, "canvas painted in");
 	}
 	
+
 	private SpriteName spriteName;         // Sprite name. SpriteName is a public enum declared in MainGamePanel
 	
 	private List<Bitmap> costumeList = new ArrayList<Bitmap>(); // list of costumes of sprite
@@ -49,6 +50,7 @@ public class Sprite {
 	                                                            // TBD currently, costomes are accessed by number.
 	                                                            // They need to be accessed by name for some Scratch
 	                                                            // instructions. Same with sounds
+
 	private int costumeNumber = 1;        // the current costume number
 	private Bitmap bitmap;	             // the current Costume bitmap
 	private int nCostumes = 0;          //number of costumes of Sprite
@@ -57,6 +59,9 @@ public class Sprite {
 	private float y = SCREENHEIGHT/2; // the Y coordinate    
 	private float direction = 90;     // the current direction in degrees. 
 	                                  // In Scratch terms. "UP" is zero degrees, "RIGHT" 90
+	private float Ynew;
+	private float Xnew;
+	private double dirNew;
 	
 	private List<Script> scList = new ArrayList<Script>();      //list of all scripts of sprite
 	private int nScripts;                                       // number of scripts of the sprite
@@ -170,6 +175,26 @@ public class Sprite {
 		// TBD falta checar si esta en el borde para darle reversa a su velocidad en x y en y.
 	}
 	
+
+	public void pointTowardsSprite (SpriteName spriteName ) {
+		
+			for(int i=0;i< MainGamePanel.spList.size() ;i++){	
+				
+					Sprite nuevo= MainGamePanel.spList.get(i);
+					if(nuevo.spriteName == spriteName){
+					Ynew=nuevo.getY();
+					Xnew=nuevo.getX();
+					dirNew=Math.atan2((y-Ynew),(x- Xnew));
+					direction=(float)dirNew;
+					pointInDirection(direction);
+					}
+					
+				
+		}
+			
+
+	}
+
 
 	/**
 	 * Handles the {@link MotionEvent.ACTION_DOWN} event. If the event happens on the 

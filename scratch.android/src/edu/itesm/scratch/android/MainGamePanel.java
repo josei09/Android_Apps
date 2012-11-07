@@ -26,14 +26,16 @@ import edu.itesm.scratch.model.Script.ScriptType;
 import edu.itesm.scratch.model.Sprite;
 
 public class MainGamePanel extends SurfaceView implements //A surface view allows us to use the whole screen
-		SurfaceHolder.Callback {                          //this allback tells Android: "We handle input/output here"
+		SurfaceHolder.Callback {                          //this callback tells Android: "We handle input/output here"
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	public static final int SCREENWIDTH = 480;  // Scratch's screen width in pixels
 	public static final int SCREENHEIGHT = 360; // TBD must be changed to compute actual device dimensions
 
 	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
-	public static enum SpriteName {GATITO1, GATITO2};           // TBM all sprite names 
+
+	public static enum SpriteName {GATITO1, GATITO2, POINTT};           // all sprite names TBM
+
 	public int nSprites;                                       //number of sprites 
 	    													     
 	                           
@@ -85,9 +87,12 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 																							 
 		spList.add(sprite); //add sprite instance to sprite list
 		
-		sprite = new Sprite(SpriteName.GATITO2, 2);   
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a_9));
-		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_b));
+		sprite = new Sprite(SpriteName.POINTT, 1);    //integer at end is number of scripts of sprite
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.droid_1)); // TBM continue adding on all costumes																				 
+		spList.add(sprite); 
+		sprite = new Sprite(SpriteName.GATITO2, 2);   //TBM continue adding on all sprites and costumes
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
 
 		spList.add(sprite);
 		// END TBM
@@ -133,6 +138,7 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 
 	
 	public boolean onTouchEvent(MotionEvent event) {
+
 		/* Handles all input/ouput: touch, drag, keypad and keyboard input */
 		
 		if (event.getAction() == MotionEvent.ACTION_DOWN) { //screen touched
