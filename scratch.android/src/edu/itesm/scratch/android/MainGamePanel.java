@@ -33,7 +33,7 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 	public static final int SCREENHEIGHT = 360; // TBD must be changed to compute actual device dimensions
 
 	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
-	public static enum SpriteName {GATITO1, GATITO2};           // TBM all sprite names 
+	public static enum SpriteName {GATITO1, GATITO2, CIRCULO1};           // TBM all sprite names 
 	public int nSprites;                                       //number of sprites 
 	    													     
 	                           
@@ -89,6 +89,10 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a_9));
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_b));
 
+		spList.add(sprite);
+		
+		sprite = new Sprite(SpriteName.CIRCULO1, 1);  
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.circulo1_prueba));
 		spList.add(sprite);
 		// END TBM
 		

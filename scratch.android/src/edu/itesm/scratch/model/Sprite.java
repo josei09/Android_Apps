@@ -170,6 +170,24 @@ public class Sprite {
 		// TBD falta checar si esta en el borde para darle reversa a su velocidad en x y en y.
 	}
 	
+	 public void goToSprite (SpriteName objeto1){ //Equipo4
+			
+		 
+		 for (int i=0; i<=MainGamePanel.spList.size(); i++  ){
+			 	if (MainGamePanel.spList.get(i).getSpriteName() == objeto1  ){
+			 		Sprite objeto= MainGamePanel.spList.get(i);
+			 		y= objeto.getY();
+			 		x= objeto.getX();
+			 		this.x = x; 
+			 		this.y = y;
+			 		draw ();
+			 		break;
+			 	}
+		 }
+    
+		 }
+		
+	
 
 	/**
 	 * Handles the {@link MotionEvent.ACTION_DOWN} event. If the event happens on the 
