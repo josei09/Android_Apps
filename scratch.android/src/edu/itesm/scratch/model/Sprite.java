@@ -7,6 +7,7 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.SoundPool;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,6 +30,10 @@ public class Sprite {
 	public static Bitmap spBitmap = Bitmap.createBitmap(SCREENWIDTH, SCREENHEIGHT, Bitmap.Config.ARGB_8888);
 	public static Canvas spCanvas = new Canvas(spBitmap); // sprites write here
 	private static final String TAG = Sprite.class.getSimpleName();
+	public static SoundPool Soundpool;
+	/** Sound variables */
+	
+	
 	static {
 	    spCanvas.drawColor(Color.BLACK);
 	    // TBD - should be painted with the initial screen image, not all black
@@ -41,6 +46,14 @@ public class Sprite {
 	private int costumeNumber = 1;        // the current costume number
 	private Bitmap bitmap;	             // the current Costume bitmap
 	private int nCostumes = 0;          //number of costumes
+	
+	private List<SoundPool> costumeSoundList= new ArrayList<SoundPool>();
+	private int costumeSoundNumber=1;
+	private SoundPool soundpool;
+	private int nCostumesSound=0;
+	
+	
+	
 	
 	private float x = SCREENWIDTH/2;  // the X coordinate of Sprite center in Canvas coordinate system.
     private float y = SCREENHEIGHT/2; // the Y coordinate 
@@ -73,9 +86,20 @@ public class Sprite {
 		if (nCostumes == 1) {
 			Log.d(TAG, "first costume setup");
 			costumeNumber = 1;
-			bitmap = costume;  //default costume is the first one
+			bitmap = costume; } //default costume is the first one
 		}
-	}
+		public  void addSound(SoundPool explosion)
+		{
+			costumeSoundList.add(explosion);
+			nCostumesSound++;
+			if(nCostumesSound==1){
+				Log.d(TAG,"First Sound setup");
+				costumeSoundNumber=1;
+				
+				
+			}
+		}
+	
 	public void nextCostume() {
 		costumeNumber++;
 		if (costumeNumber > nCostumes) costumeNumber = 1;
