@@ -16,8 +16,9 @@ public final class R {
         public static final int cat1_b=0x7f020002;
         public static final int circulo1_prueba=0x7f020003;
         public static final int droid_1=0x7f020004;
-        public static final int ic_action_search=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
+        public static final int fondo_inicio=0x7f020005;
+        public static final int ic_action_search=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
     }
     public static final class id {
         public static final int menu_settings=0x7f060000;

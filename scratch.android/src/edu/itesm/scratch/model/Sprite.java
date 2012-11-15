@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import edu.itesm.scratch.android.MainGamePanel;
+import edu.itesm.scratch.android.R;
 import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.android.MainGamePanel.SpriteName;
+
 
 /**
  * This class is invoked from MainGamePanel to initialize sprites and from the Scripts class
@@ -30,6 +33,8 @@ public class Sprite {
 	public static final int SCREENWIDTH = MainGamePanel.SCREENWIDTH;   // Scratch's screen width in pixels
 	public static final int SCREENHEIGHT = MainGamePanel.SCREENHEIGHT; // must be changed later to compute actual device dimensions
 	public static final float DEGTORAD = 3.14159f/180.0f;              // degrees to radians conversion
+	public static Bitmap inicio= Bitmap.createBitmap(MainGamePanel.inicio);
+	
 	
 	// bitmap and canvas where all sprites are painted on. Copied later to surface canvas by MainGamePanel.onDraw method
 	public static Bitmap spBitmap = Bitmap.createBitmap(SCREENWIDTH, SCREENHEIGHT, Bitmap.Config.ARGB_8888);
@@ -37,12 +42,16 @@ public class Sprite {
 	
 	private static final String TAG = Sprite.class.getSimpleName();
 	static {
-	    spCanvas.drawColor(Color.BLACK);
+	
+		 spCanvas.drawBitmap(inicio, 0, 0, null);
+				 //(BitmapFactory.decodeResource(getResources(), R.drawable.fondo_inicio);
 	    // TBD - should be painted with the initial screen image, not all black
 	    Log.d(TAG, "canvas painted in");
 	}
 	
 	private SpriteName spriteName;         // Sprite name. SpriteName is a public enum declared in MainGamePanel
+	
+	private List<Bitmap> inicioList = new ArrayList<Bitmap>();
 	
 	private List<Bitmap> costumeList = new ArrayList<Bitmap>(); // list of costumes of sprite
 	                                                            // TBD list of sounds 
@@ -58,12 +67,14 @@ public class Sprite {
 	private float direction = 90;     // the current direction in degrees. 
 	                                  // In Scratch terms. "UP" is zero degrees, "RIGHT" 90
 	
+	
 	private List<Script> scList = new ArrayList<Script>();      //list of all scripts of sprite
 	private int nScripts;                                       // number of scripts of the sprite
 	
 	private boolean touched = false;        // if sprite has been touched
 	private boolean onEdgeBounce = false;   // ifOnEdgeBounce instruction has been executed
 	private boolean hidden = true;          // true if sprite is hidden
+	
 	
 	public Sprite(SpriteName spriteName, int numberOfScripts) {
 		Log.d(TAG, "sprite being created");
@@ -78,6 +89,7 @@ public class Sprite {
 			scList.add (script);
 		}
 	}
+	
 	public void addCostume(Bitmap costume) {
 		costumeList.add(costume);
 		nCostumes++;
@@ -162,7 +174,8 @@ public class Sprite {
 	private void draw() {
 		spCanvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
-	
+
+
 	
 	
 	public void ifOnEdgeBounce () {
