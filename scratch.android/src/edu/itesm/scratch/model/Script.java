@@ -41,6 +41,10 @@ public class Script  {
 		this.scriptID = scriptID;
 			
 		switch (sprite.getSpriteName()) {
+		case CIRCULO1:
+			scThread = new Thread(new StatmntsCirculo1_1(sprite));
+			scriptType = ScriptType.WGREENFLAGCLKD;
+			break;
 		case GATITO1:
 			scThread = new Thread(new StatmntsGatito1_1(sprite));
 			scriptType = ScriptType.WGREENFLAGCLKD;
@@ -56,6 +60,7 @@ public class Script  {
 				scThread = new Thread(new StatmntsGatito2_1(sprite));
 				scriptType = ScriptType.WGREENFLAGCLKD;
 				break;
+			
 			case 2:
 				scThread = new Thread(new StatmntsGatito2_2(sprite));
 				scriptType = ScriptType.WGREENFLAGCLKD;
@@ -100,6 +105,32 @@ public class Script  {
 	    		
 	}
 	
+	public class StatmntsCirculo1_1 implements Runnable {
+	    private Sprite sprite;
+	    private int i;
+	    public StatmntsCirculo1_1(Sprite sprite) {
+	    	this.sprite = sprite;
+	    }
+	    
+	    
+	    	
+	    public void run() {
+	    	
+	    	whenGreenFlagClicked();
+		
+	
+	    	for (i=1;i<=95;i++)  {
+	    		sprite.goToSprite(SpriteName.GATITO2);
+	    		
+    			try {
+            		Thread.sleep(500);
+            	} catch (InterruptedException e) {
+            		Log.d(TAG, "interrupted");
+            	}
+	    	}
+	    }   		
+	}
+	
 	public class StatmntsGatito2_1 implements Runnable {
 	    private Sprite sprite;
 	    private int i;
@@ -114,12 +145,13 @@ public class Script  {
 	    	sprite.pointInDirection(90);
 	    	for (i=1;i<=95;i++) { //Scratch's repeat 190 times block
 	    		sprite.moveSteps(-4);
-	    		sprite.ifOnEdgeBounce();
 	    		try {
-	            	Thread.sleep(25);
+	            	Thread.sleep(500);
 	            } catch (InterruptedException e) {
 	            	Log.d(TAG, "interrupted");
 	            }
+	    		
+	            
 	    	}
 	    }
 	    		

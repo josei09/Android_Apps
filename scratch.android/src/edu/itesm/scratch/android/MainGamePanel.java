@@ -34,10 +34,10 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 
 	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
 
-	public static enum SpriteName {GATITO1, GATITO2, POINTT};           // all sprite names TBM
+	public static enum SpriteName {GATITO1, GATITO2, POINTT, CIRCULO1};           // all sprite names TBM
 
 	public int nSprites;                                       //number of sprites 
-	    													     
+	    								
 	                           
 	public static boolean greenFlagClicked = false;
 	private MainThread thread;                 //main project thread
@@ -94,6 +94,10 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
 
+		spList.add(sprite);
+		
+		sprite = new Sprite(SpriteName.CIRCULO1, 1);  
+		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.circulo1_prueba));
 		spList.add(sprite);
 		// END TBM
 		
