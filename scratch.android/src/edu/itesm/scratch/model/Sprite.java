@@ -97,6 +97,13 @@ public class Sprite {
 		if (costumeNumber > nCostumes) costumeNumber = 1;
 		bitmap = costumeList.get(costumeNumber-1);
 	}
+	public void switchToCostume(int costumeChange) {
+		
+		if (costumeChange>0 && costumeChange <= nCostumes) costumeNumber = costumeChange;
+		bitmap = costumeList.get(costumeNumber-1);
+	
+	}
+	
 	public SpriteName getSpriteName () {return spriteName;}
 	
 	public int getNScripts () {return nScripts;}
