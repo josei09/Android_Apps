@@ -17,6 +17,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -93,14 +95,19 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 		sprite = new Sprite(SpriteName.GATITO2, 2);   //TBM continue adding on all sprites and costumes
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.cat1_a));
-
+		
 		spList.add(sprite);
 		
+
 		sprite = new Sprite(SpriteName.CIRCULO1, 1);  
 		sprite.addCostume(BitmapFactory.decodeResource(getResources(), R.drawable.circulo1_prueba));
 		spList.add(sprite);
 		// END TBM
 		
+
+		MediaPlayer mp = MediaPlayer.create(getContext(),R.raw.gerudo);
+		mp.start();
+
 		nSprites = spList.size();
 		
 		// TBD - get the initial project screen and load it up on spCanvas, instead of the static method in Sprite
