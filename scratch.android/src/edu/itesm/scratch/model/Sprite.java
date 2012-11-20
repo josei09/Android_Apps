@@ -87,6 +87,18 @@ public class Sprite {
 		bitmap = costumeList.get(costumeNumber-1);
 	
 	}
+	public void wait(float sec)
+	{
+		int time =(int)(sec *1000);
+			try {
+            	Thread.sleep(time);
+            } 
+			catch (InterruptedException e) {
+            	Log.d(TAG, "interrupted");
+            }
+		
+		
+	}
 	
 	public SpriteName getSpriteName () {return spriteName;}
 	
