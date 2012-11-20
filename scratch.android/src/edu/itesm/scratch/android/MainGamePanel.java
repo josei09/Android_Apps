@@ -15,6 +15,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
@@ -26,6 +27,7 @@ import android.view.SurfaceView;
 import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.model.Script.ScriptType;
 import edu.itesm.scratch.model.Sprite;
+
 
 public class MainGamePanel extends SurfaceView implements //A surface view allows us to use the whole screen
 		SurfaceHolder.Callback {                          //this callback tells Android: "We handle input/output here"
@@ -39,13 +41,18 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 	public static enum SpriteName {GATITO1, GATITO2, POINTT, CIRCULO1};           // all sprite names TBM
 
 	public int nSprites;                                       //number of sprites 
-	    								
+
+	public static Bitmap inicio;
+	private Bitmap bitmap;	  
 	                           
 	public static boolean greenFlagClicked = false;
 	private MainThread thread;                 //main project thread
 	
 	
 	public MainGamePanel(Context context) {
+		
+	
+	
 		super(context);
 		// adding the callback (this) to the surface holder to intercept input events
 		getHolder().addCallback(this);
@@ -56,7 +63,10 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 		// make the GamePanel focusable so it can handle I/O events 
 		setFocusable(true);
 	}
-
+	
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
+	}
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
@@ -75,6 +85,8 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 		 *                all Sprite instances, all Costumes and Sounds added on
 		 *                all script threads started, all of them waiting on their "When..." blocks           
 		 */
+		inicio=Bitmap.createBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.fondo_inicio)));
+		
 		
 		Sprite sprite;
 		
