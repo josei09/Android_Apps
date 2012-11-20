@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import edu.itesm.scratch.android.MainGamePanel;
+import edu.itesm.scratch.android.R;
 import edu.itesm.scratch.model.Script;
 import edu.itesm.scratch.android.MainGamePanel.SpriteName;
 
@@ -38,6 +40,7 @@ public class Sprite {
 	private static final String TAG = Sprite.class.getSimpleName();
 	static {
 	    spCanvas.drawColor(Color.BLACK);
+	  
 	    // TBD - should be painted with the initial screen image, not all black
 	    Log.d(TAG, "canvas painted in");
 	}
@@ -53,10 +56,13 @@ public class Sprite {
 
 	private int costumeNumber = 1;        // the current costume number
 	private Bitmap bitmap;	             // the current Costume bitmap
+	private Bitmap bitmap2;
 	private int nCostumes = 0;          //number of costumes of Sprite
 	
 	private float x = SCREENWIDTH/2;  // the X coordinate of Sprite center in Canvas coordinate system.
 	private float y = SCREENHEIGHT/2; // the Y coordinate    
+	private float xFlag = SCREENWIDTH;  
+	private float yFlag = SCREENHEIGHT;
 	private float direction = 90;     // the current direction in degrees. 
 	                                  // In Scratch terms. "UP" is zero degrees, "RIGHT" 90
 	private float Ynew;
@@ -69,6 +75,7 @@ public class Sprite {
 	private boolean touched = false;        // if sprite has been touched
 	private boolean onEdgeBounce = false;   // ifOnEdgeBounce instruction has been executed
 	private boolean hidden = true;          // true if sprite is hidden
+	
 	
 	public Sprite(SpriteName spriteName, int numberOfScripts) {
 		Log.d(TAG, "sprite being created");
@@ -83,6 +90,16 @@ public class Sprite {
 			scList.add (script);
 		}
 	}
+	public void getFlag(Bitmap costume) {
+		costumeList.add(costume);
+		nCostumes++;
+		if (nCostumes == 1) {
+			Log.d(TAG, "first flag");
+			costumeNumber = 1;
+			bitmap = costume; 
+		}
+		
+}
 	public void addCostume(Bitmap costume) {
 		costumeList.add(costume);
 		nCostumes++;

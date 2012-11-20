@@ -34,7 +34,7 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 
 	public static List<Sprite> spList = new ArrayList<Sprite>(); //list of sprites
 
-	public static enum SpriteName {GATITO1, GATITO2, POINTT};           // all sprite names TBM
+	public static enum SpriteName {GATITO1, GATITO2, POINTT,FLAG1};           // all sprite names TBM
 
 	public int nSprites;                                       //number of sprites 
 	    													     
@@ -76,6 +76,9 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 		
 		Sprite sprite;
 		
+Sprite.spCanvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.flag1),430,15,null);
+Sprite.spCanvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.flag2),410,15,null);
+
 		// Create all sprites and their costumes.
 		// Creating a sprite also creates and starts all its scripts' threads.
 		// All threads will be waiting on some "When..." scratch block.
@@ -147,13 +150,13 @@ public class MainGamePanel extends SurfaceView implements //A surface view allow
 				spList.get(i).handleActionDown((int)event.getX(), (int)event.getY());
 			}
             // TBD - check if actual red or green flags touched.
-			// check if in the lower part of the screen we exit (Scratch's red stop sign)
-			if (event.getY() > getHeight() - 50) {
+			//  (Scratch's red stop sign)
+			if (event.getY() >=  19 && event.getY() <=50  && event.getX() >= 419 && event.getX() <= 443  ) {
 				thread.setRunning(false);
 				((Activity)getContext()).finish();
 				
-				   // or in the upper part of the screen we start (Scratch green flag sign)
-			} else if (event.getY() < 50) {
+				   //  (Scratch green flag sign)
+			} else if (event.getY() >=  23 && event.getY() <=44  && event.getX() >= 449 && event.getX() <= 473) {
 				greenFlagClicked = true;
 				
 				// interrupt all threads sleep/waiting for the green flag at class Script:

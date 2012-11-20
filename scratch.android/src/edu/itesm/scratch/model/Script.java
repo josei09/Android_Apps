@@ -50,6 +50,7 @@ public class Script  {
 			scThread = new Thread(new StatmntsPointt_1(sprite));
 			scriptType = ScriptType.WGREENFLAGCLKD;
 			break;
+		
 		case GATITO2:
 			switch (scriptID) {
 			case 1:
